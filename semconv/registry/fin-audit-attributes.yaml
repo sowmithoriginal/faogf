@@ -1,0 +1,132 @@
+groups:
+- id: registry.fin.audit
+  type: attribute_group
+  display_name: Financial agent audit attributes
+  brief: Attributes that bind agent operations to authority, policy and evidence for audit reconstruction.
+  attributes:
+  - id: fin.audit.principal.id
+    type: string
+    stability: development
+    brief: Authenticated principal (user or service) at the root of the delegation chain.
+    examples:
+    - analyst.jdoe
+  - id: fin.audit.delegation.id
+    type: string
+    stability: development
+    brief: Gateway-minted delegation under which the operation executed.
+    examples:
+    - del_7b3a9c1e
+  - id: fin.audit.delegation.parent_id
+    type: string
+    stability: development
+    brief: Parent delegation when authority was re-delegated to a sub-agent.
+    examples:
+    - del_1a2b3c4d
+  - id: fin.audit.delegation.child_id
+    type: string
+    stability: development
+    brief: Delegation issued to a sub-agent by this operation.
+    examples:
+    - del_9f8e7d6c
+  - id: fin.audit.action
+    type: string
+    stability: development
+    brief: Normalised action verb.
+    examples:
+    - read
+    - search
+    - compute
+    - share
+    - delegate
+    - generate
+    - decide
+  - id: fin.audit.resource.ids
+    type: string[]
+    stability: development
+    brief: Resources the operation targeted (filing identifiers, recipients).
+    examples:
+    - - edgar:0001018724-25-000004
+  - id: fin.audit.policy.id
+    type: string
+    stability: development
+    brief: Policy evaluated before the operation.
+    examples:
+    - fin-agent-policy
+  - id: fin.audit.policy.version
+    type: int
+    stability: development
+    brief: Version of the policy in force at evaluation time.
+    examples:
+    - 2
+  - id: fin.audit.policy.decision
+    type: string
+    stability: development
+    brief: Outcome of policy evaluation; anything other than permit is non-permission.
+    examples:
+    - permit
+    - deny
+    - error
+  - id: fin.audit.policy.rule_id
+    type: string
+    stability: development
+    brief: Rule that determined the decision.
+    examples:
+    - r-share-internal
+  - id: fin.audit.approval.status
+    type: string
+    stability: development
+    brief: Human approval outcome for escalated operations.
+    examples:
+    - not_required
+    - granted
+    - denied
+  - id: fin.audit.evidence.ids
+    type: string[]
+    stability: development
+    brief: Evidence produced by a tool call, or evidence present in a model call's context.
+    examples:
+    - - ev_3f2a
+  - id: fin.audit.evidence.sources
+    type: string[]
+    stability: development
+    brief: 'Evidence descriptors: source@version#sha256-prefix|trust-class.'
+    examples:
+    - - NWC-10K-FY2025@2#9c1e...|authoritative_filing
+  - id: fin.audit.context.untrusted
+    type: boolean
+    stability: development
+    brief: Whether untrusted evidence was in the issuing model call's context.
+    examples:
+    - true
+  - id: fin.audit.model_call.id
+    type: string
+    stability: development
+    brief: Model call whose output requested this tool call.
+    examples:
+    - mc_51aa
+  - id: fin.audit.decision.derived_from
+    type: string[]
+    stability: development
+    brief: Sub-agent decisions this decision depends on.
+    examples:
+    - - dec_77b0
+  - id: fin.audit.record.id
+    type: string
+    stability: development
+    brief: Pointer to the corresponding record in the hash-chained evidence store.
+    examples:
+    - act_0c1d
+  - id: fin.audit.record.status
+    type: string
+    stability: development
+    brief: Whether the evidence-store record was written.
+    examples:
+    - recorded
+    - unrecorded
+  - id: fin.audit.binding
+    type: string
+    stability: development
+    brief: Whether delegation context was bound by the gateway.
+    examples:
+    - gateway
+    - unbound

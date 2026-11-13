@@ -1,0 +1,30 @@
+# FAOGF experiment Collector configuration: passthrough
+# Used for: Table XI (pass-through) and Table X (E14 queue overflow)
+# Collector: otelcol-contrib v0.163.2
+# Generated from experiments/otel_pipeline.py (PROCESSORS['passthrough']).
+# At run time the harness binds the OTLP/HTTP receiver to a free local port and writes
+# spans to a temporary directory; endpoint and path below are the only substituted values.
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 127.0.0.1:4318
+processors:
+  batch: {}
+exporters:
+  file:
+    path: ./collector-out/spans.json
+service:
+  telemetry:
+    metrics:
+      level: none
+    logs:
+      level: warn
+  pipelines:
+    traces:
+      receivers:
+      - otlp
+      processors:
+      - batch
+      exporters:
+      - file

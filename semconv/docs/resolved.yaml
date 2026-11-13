@@ -1,0 +1,492 @@
+registry_url: semconv/registry
+groups:
+- id: registry.fin.audit
+  type: attribute_group
+  brief: Attributes that bind agent operations to authority, policy and evidence for audit reconstruction.
+  attributes:
+  - name: fin.audit.action
+    type: string
+    brief: Normalised action verb.
+    examples:
+    - read
+    - search
+    - compute
+    - share
+    - delegate
+    - generate
+    - decide
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.approval.status
+    type: string
+    brief: Human approval outcome for escalated operations.
+    examples:
+    - not_required
+    - granted
+    - denied
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.binding
+    type: string
+    brief: Whether delegation context was bound by the gateway.
+    examples:
+    - gateway
+    - unbound
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.context.untrusted
+    type: boolean
+    brief: Whether untrusted evidence was in the issuing model call's context.
+    examples:
+    - true
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.decision.derived_from
+    type: string[]
+    brief: Sub-agent decisions this decision depends on.
+    examples:
+    - - dec_77b0
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.delegation.child_id
+    type: string
+    brief: Delegation issued to a sub-agent by this operation.
+    examples:
+    - del_9f8e7d6c
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.delegation.id
+    type: string
+    brief: Gateway-minted delegation under which the operation executed.
+    examples:
+    - del_7b3a9c1e
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.delegation.parent_id
+    type: string
+    brief: Parent delegation when authority was re-delegated to a sub-agent.
+    examples:
+    - del_1a2b3c4d
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.evidence.ids
+    type: string[]
+    brief: Evidence produced by a tool call, or evidence present in a model call's context.
+    examples:
+    - - ev_3f2a
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.evidence.sources
+    type: string[]
+    brief: 'Evidence descriptors: source@version#sha256-prefix|trust-class.'
+    examples:
+    - - NWC-10K-FY2025@2#9c1e...|authoritative_filing
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.model_call.id
+    type: string
+    brief: Model call whose output requested this tool call.
+    examples:
+    - mc_51aa
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.policy.decision
+    type: string
+    brief: Outcome of policy evaluation; anything other than permit is non-permission.
+    examples:
+    - permit
+    - deny
+    - error
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.policy.id
+    type: string
+    brief: Policy evaluated before the operation.
+    examples:
+    - fin-agent-policy
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.policy.rule_id
+    type: string
+    brief: Rule that determined the decision.
+    examples:
+    - r-share-internal
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.policy.version
+    type: int
+    brief: Version of the policy in force at evaluation time.
+    examples:
+    - 2
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.principal.id
+    type: string
+    brief: Authenticated principal (user or service) at the root of the delegation chain.
+    examples:
+    - analyst.jdoe
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.record.id
+    type: string
+    brief: Pointer to the corresponding record in the hash-chained evidence store.
+    examples:
+    - act_0c1d
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.record.status
+    type: string
+    brief: Whether the evidence-store record was written.
+    examples:
+    - recorded
+    - unrecorded
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.resource.ids
+    type: string[]
+    brief: Resources the operation targeted (filing identifiers, recipients).
+    examples:
+    - - edgar:0001018724-25-000004
+    requirement_level: recommended
+    stability: development
+  lineage:
+    provenance:
+      schema_url: https://example.org/schemas/fin-audit/0.1.0
+      path: semconv/registry/fin-audit-attributes.yaml
+  display_name: Financial agent audit attributes
+- id: span.fin.audit.chat
+  type: span
+  brief: Model call through the FAOGF gateway (extends gen_ai chat spans).
+  stability: development
+  attributes:
+  - name: fin.audit.delegation.id
+    type: string
+    brief: Gateway-minted delegation under which the operation executed.
+    examples:
+    - del_7b3a9c1e
+    requirement_level: required
+    stability: development
+  - name: fin.audit.evidence.ids
+    type: string[]
+    brief: Evidence produced by a tool call, or evidence present in a model call's context.
+    examples:
+    - - ev_3f2a
+    requirement_level: required
+    stability: development
+  - name: fin.audit.record.id
+    type: string
+    brief: Pointer to the corresponding record in the hash-chained evidence store.
+    examples:
+    - act_0c1d
+    requirement_level: required
+    stability: development
+  span_kind: client
+  lineage:
+    provenance:
+      schema_url: https://example.org/schemas/fin-audit/0.1.0
+      path: semconv/registry/fin-audit-spans.yaml
+    attributes:
+      fin.audit.delegation.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.evidence.ids:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.record.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+- id: span.fin.audit.decision
+  type: span
+  brief: Final output of an agent bound to the evidence in its context.
+  stability: development
+  attributes:
+  - name: fin.audit.decision.derived_from
+    type: string[]
+    brief: Sub-agent decisions this decision depends on.
+    examples:
+    - - dec_77b0
+    requirement_level: required
+    stability: development
+  - name: fin.audit.delegation.id
+    type: string
+    brief: Gateway-minted delegation under which the operation executed.
+    examples:
+    - del_7b3a9c1e
+    requirement_level: required
+    stability: development
+  - name: fin.audit.evidence.ids
+    type: string[]
+    brief: Evidence produced by a tool call, or evidence present in a model call's context.
+    examples:
+    - - ev_3f2a
+    requirement_level: required
+    stability: development
+  - name: fin.audit.record.id
+    type: string
+    brief: Pointer to the corresponding record in the hash-chained evidence store.
+    examples:
+    - act_0c1d
+    requirement_level: required
+    stability: development
+  span_kind: internal
+  lineage:
+    provenance:
+      schema_url: https://example.org/schemas/fin-audit/0.1.0
+      path: semconv/registry/fin-audit-spans.yaml
+    attributes:
+      fin.audit.decision.derived_from:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.delegation.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.evidence.ids:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.record.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+- id: span.fin.audit.execute_tool
+  type: span
+  brief: Tool execution by an agent through the FAOGF gateway (extends gen_ai execute_tool spans).
+  stability: development
+  attributes:
+  - name: fin.audit.action
+    type: string
+    brief: Normalised action verb.
+    examples:
+    - read
+    - search
+    - compute
+    - share
+    - delegate
+    - generate
+    - decide
+    requirement_level: required
+    stability: development
+  - name: fin.audit.binding
+    type: string
+    brief: Whether delegation context was bound by the gateway.
+    examples:
+    - gateway
+    - unbound
+    requirement_level: required
+    stability: development
+  - name: fin.audit.delegation.id
+    type: string
+    brief: Gateway-minted delegation under which the operation executed.
+    examples:
+    - del_7b3a9c1e
+    requirement_level: required
+    stability: development
+  - name: fin.audit.delegation.parent_id
+    type: string
+    brief: Parent delegation when authority was re-delegated to a sub-agent.
+    examples:
+    - del_1a2b3c4d
+    requirement_level:
+      conditionally_required: for re-delegated authority
+    stability: development
+  - name: fin.audit.evidence.ids
+    type: string[]
+    brief: Evidence produced by a tool call, or evidence present in a model call's context.
+    examples:
+    - - ev_3f2a
+    requirement_level:
+      conditionally_required: when the tool returns evidence
+    stability: development
+  - name: fin.audit.model_call.id
+    type: string
+    brief: Model call whose output requested this tool call.
+    examples:
+    - mc_51aa
+    requirement_level: recommended
+    stability: development
+  - name: fin.audit.policy.decision
+    type: string
+    brief: Outcome of policy evaluation; anything other than permit is non-permission.
+    examples:
+    - permit
+    - deny
+    - error
+    requirement_level:
+      conditionally_required: for every tool except delegate
+    stability: development
+  - name: fin.audit.policy.id
+    type: string
+    brief: Policy evaluated before the operation.
+    examples:
+    - fin-agent-policy
+    requirement_level:
+      conditionally_required: for every tool except delegate
+    stability: development
+  - name: fin.audit.policy.version
+    type: int
+    brief: Version of the policy in force at evaluation time.
+    examples:
+    - 2
+    requirement_level:
+      conditionally_required: for every tool except delegate
+    stability: development
+  - name: fin.audit.principal.id
+    type: string
+    brief: Authenticated principal (user or service) at the root of the delegation chain.
+    examples:
+    - analyst.jdoe
+    requirement_level: required
+    stability: development
+  - name: fin.audit.record.id
+    type: string
+    brief: Pointer to the corresponding record in the hash-chained evidence store.
+    examples:
+    - act_0c1d
+    requirement_level:
+      conditionally_required: for every tool except delegate
+    stability: development
+  span_kind: internal
+  lineage:
+    provenance:
+      schema_url: https://example.org/schemas/fin-audit/0.1.0
+      path: semconv/registry/fin-audit-spans.yaml
+    attributes:
+      fin.audit.action:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.binding:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.delegation.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.delegation.parent_id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.evidence.ids:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.model_call.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.policy.decision:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.policy.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.policy.version:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.principal.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level
+      fin.audit.record.id:
+        source_group: registry.fin.audit
+        inherited_fields:
+        - brief
+        - examples
+        - note
+        - stability
+        locally_overridden_fields:
+        - requirement_level

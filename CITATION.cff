@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "FAOGF: Auditable Evidence Provenance for Autonomous Financial AI Agents on OpenTelemetry (prototype, fin.audit.* registry and experiments)"
+authors:
+  - family-names: Javvaji
+    given-names: Sowmith
+    orcid: "https://orcid.org/0009-0001-7473-8417"
+version: "1.0.0-ijdsml"
+date-released: "2026-11-13"
+repository-code: "https://github.com/sowmithoriginal/faogf"
+license: MIT
+keywords:
+  - AI agents
+  - OpenTelemetry
+  - audit logging
+  - provenance
+  - financial compliance
+  - prompt injection

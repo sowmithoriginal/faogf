@@ -1,0 +1,61 @@
+groups:
+- id: span.fin.audit.execute_tool
+  type: span
+  span_kind: internal
+  stability: development
+  brief: Tool execution by an agent through the FAOGF gateway (extends gen_ai execute_tool spans).
+  attributes:
+  - ref: fin.audit.delegation.id
+    requirement_level: required
+  - ref: fin.audit.principal.id
+    requirement_level: required
+  - ref: fin.audit.binding
+    requirement_level: required
+  - ref: fin.audit.action
+    requirement_level: required
+  - ref: fin.audit.record.id
+    requirement_level:
+      conditionally_required: for every tool except delegate
+  - ref: fin.audit.policy.id
+    requirement_level:
+      conditionally_required: for every tool except delegate
+  - ref: fin.audit.policy.version
+    requirement_level:
+      conditionally_required: for every tool except delegate
+  - ref: fin.audit.policy.decision
+    requirement_level:
+      conditionally_required: for every tool except delegate
+  - ref: fin.audit.evidence.ids
+    requirement_level:
+      conditionally_required: when the tool returns evidence
+  - ref: fin.audit.model_call.id
+    requirement_level: recommended
+  - ref: fin.audit.delegation.parent_id
+    requirement_level:
+      conditionally_required: for re-delegated authority
+- id: span.fin.audit.chat
+  type: span
+  span_kind: client
+  stability: development
+  brief: Model call through the FAOGF gateway (extends gen_ai chat spans).
+  attributes:
+  - ref: fin.audit.delegation.id
+    requirement_level: required
+  - ref: fin.audit.record.id
+    requirement_level: required
+  - ref: fin.audit.evidence.ids
+    requirement_level: required
+- id: span.fin.audit.decision
+  type: span
+  span_kind: internal
+  stability: development
+  brief: Final output of an agent bound to the evidence in its context.
+  attributes:
+  - ref: fin.audit.delegation.id
+    requirement_level: required
+  - ref: fin.audit.record.id
+    requirement_level: required
+  - ref: fin.audit.evidence.ids
+    requirement_level: required
+  - ref: fin.audit.decision.derived_from
+    requirement_level: required

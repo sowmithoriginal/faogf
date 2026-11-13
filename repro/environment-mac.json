@@ -1,0 +1,37 @@
+{
+  "machine_label": "apple-m-series",
+  "recorded_at_utc": "2026-11-13T00:05:05+00:00",
+  "python": "3.12.7",
+  "os": "macOS-26.5.1-arm64-arm-64bit",
+  "cpu_arch": "arm64",
+  "processor": "arm",
+  "git": {
+    "commit": "fatal: not a git repository (or any of the parent directories): .git",
+    "describe": "fatal: not a git repository (or any of the parent directories): .git",
+    "dirty": true
+  },
+  "packages": {
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "httpx2": "2.13.0",
+    "numpy": "1.26.4",
+    "numpydoc": "1.7.0",
+    "openai": "3.18.0",
+    "openai-agents": "0.2.7",
+    "opentelemetry-api": "1.45.1",
+    "opentelemetry-exporter-http-transport": "0.66b1",
+    "opentelemetry-exporter-otlp-common": "0.66b1",
+    "opentelemetry-exporter-otlp-proto-common": "1.45.1",
+    "opentelemetry-exporter-otlp-proto-http": "1.45.1",
+    "opentelemetry-proto": "1.45.1",
+    "opentelemetry-sdk": "1.45.1",
+    "opentelemetry-semantic-conventions": "0.66b1",
+    "pandas": "2.2.2",
+    "requests": "2.32.3",
+    "requests-file": "1.5.1",
+    "requests-toolbelt": "1.0.0",
+    "scipy": "1.13.1"
+  },
+  "otelcol_contrib_version": "otelcol-contrib version 0.163.2",
+  "weaver_version": null
+}

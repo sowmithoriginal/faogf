@@ -1,0 +1,50 @@
+# FAOGF experiment Collector configuration: tail_sampling
+# Used for: Table IX tail-sampling row (E13)
+# Collector: otelcol-contrib v0.163.2
+# Generated from experiments/otel_pipeline.py (PROCESSORS['tail_sampling']).
+# At run time the harness binds the OTLP/HTTP receiver to a free local port and writes
+# spans to a temporary directory; endpoint and path below are the only substituted values.
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 127.0.0.1:4318
+processors:
+  tail_sampling:
+    decision_wait: 2s
+    num_traces: 200000
+    policies:
+    - name: errors
+      type: status_code
+      status_code:
+        status_codes:
+        - ERROR
+    - name: sensitive-tool
+      type: string_attribute
+      string_attribute:
+        key: gen_ai.tool.name
+        values:
+        - distribute_report
+    - name: baseline-10pct
+      type: probabilistic
+      probabilistic:
+        sampling_percentage: 10
+  batch: {}
+exporters:
+  file:
+    path: ./collector-out/spans.json
+service:
+  telemetry:
+    metrics:
+      level: none
+    logs:
+      level: warn
+  pipelines:
+    traces:
+      receivers:
+      - otlp
+      processors:
+      - tail_sampling
+      - batch
+      exporters:
+      - file

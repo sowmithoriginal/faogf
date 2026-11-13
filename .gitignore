@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# secrets
+.env
+*.key
+# OS
+.DS_Store
+# Collector binary (download per bin/README.md)
+bin/otelcol-contrib
+bin/otelcol.tgz

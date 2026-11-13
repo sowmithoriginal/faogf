@@ -1,0 +1,37 @@
+# FAOGF experiment Collector configuration: truncate_64
+# Used for: Table XI truncate to 64 chars (E15)
+# Collector: otelcol-contrib v0.163.2
+# Generated from experiments/otel_pipeline.py (PROCESSORS['truncate_64']).
+# At run time the harness binds the OTLP/HTTP receiver to a free local port and writes
+# spans to a temporary directory; endpoint and path below are the only substituted values.
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 127.0.0.1:4318
+processors:
+  transform/truncate:
+    error_mode: ignore
+    trace_statements:
+    - context: span
+      statements:
+      - truncate_all(span.attributes, 64)
+  batch: {}
+exporters:
+  file:
+    path: ./collector-out/spans.json
+service:
+  telemetry:
+    metrics:
+      level: none
+    logs:
+      level: warn
+  pipelines:
+    traces:
+      receivers:
+      - otlp
+      processors:
+      - transform/truncate
+      - batch
+      exporters:
+      - file
