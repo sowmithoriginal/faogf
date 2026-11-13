@@ -45,7 +45,8 @@ SHA-256 `901e8cff562819007d43ff0c10b43b2e386481eb40f2157ba18da8fbbe05bff5`.
 ## Reproduce
 ```bash
 pip install -r requirements.txt
-python3 -m experiments.run_all          # controlled study E1–E15 -> results/results_scripted.json
-python3 -m experiments.report           # tables and figures -> results/report_scripted.md, fig*.png
-python3 -m experiments.real_study --model gpt-4o-mini -n 50 --judge    # needs OPENAI_API_KEY
+python3 -m experiments.run_all -n 200 --seeds 5 --sizes 250,1000,4000,10000   # E1–E15 -> results/results_scripted.json
+python3 -m experiments.report results/results_scripted.json                     # tables and figures
+python3 -m experiments.real_study --model gpt-4o-mini -n 50 --judge             # real-filing run 1 (needs OPENAI_API_KEY, SEC_USER_AGENT)
 ```
+E13–E15 need `bin/otelcol-contrib` (see `bin/README.md`).
